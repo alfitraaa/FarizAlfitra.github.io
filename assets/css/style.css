@@ -319,8 +319,35 @@ main {
 	margin-bottom: 48px;
 }
 
+/* Eyebrow: two structured groups of focus areas with CSS-generated middle-dot
+   separators — never a literal dot-delimited string. Dots sit between items
+   inside each group, and a further dot joins the two groups so that on a single
+   line all five read "Finance · Governance · Operations · Data · Projects".
+   Horizontal rhythm comes solely from the separator margins, so the space on
+   both sides of every dot is mathematically identical. */
 .hero__eyebrow {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	row-gap: 6px;
 	margin-bottom: 24px;
+}
+
+.hero__eyebrow-group {
+	display: inline-flex;
+	align-items: center;
+}
+
+.hero__eyebrow-group span {
+	white-space: nowrap;
+}
+
+.hero__eyebrow-group span:not(:last-child)::after,
+.hero__eyebrow-group:not(:last-child)::after {
+	content: "\00B7"; /* middle dot */
+	margin-inline: 0.7em;
+	color: var(--outline-variant);
+	font-weight: 600;
 }
 
 .hero h1 {
@@ -375,6 +402,128 @@ main {
 	flex-wrap: wrap;
 	gap: 16px;
 	align-items: center;
+}
+
+/* ---------- Portrait-ready hero hooks ------------------------------------- */
+/* No-photo default: the portrait slot is removed from flow entirely and the
+   text content keeps its natural full width — no blank reserved box appears.
+   Activating a future portrait is a single markup step (see the hero comment
+   in index.html): add .hero--with-portrait to the section and drop one <img>
+   into .hero__portrait. The rules below only take effect in that state. */
+.hero__portrait {
+	display: none;
+}
+
+/* Guard against an empty slot ever painting a visible box. */
+.hero--with-portrait .hero__portrait:empty {
+	display: none;
+}
+
+.hero--with-portrait .hero__portrait img {
+	width: 100%;
+	aspect-ratio: 4 / 5; /* editorial portrait */
+	object-fit: cover;
+	border: 0.5px solid var(--outline-variant);
+	border-radius: var(--radius);
+}
+
+/* Mobile portrait layout: compact portrait sits to the RIGHT of the identity
+   block; intro and actions run full width beneath — keeps the hero from
+   becoming excessively tall. */
+.hero--with-portrait .hero__content {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	grid-template-areas:
+		"identity portrait"
+		"intro    intro"
+		"actions  actions";
+	column-gap: 20px;
+	row-gap: 24px;
+	align-items: start;
+}
+
+.hero--with-portrait .hero__identity { grid-area: identity; }
+
+.hero--with-portrait .hero__portrait {
+	grid-area: portrait;
+	display: block;
+	width: 96px;
+	align-self: start;
+}
+
+.hero--with-portrait .hero__intro { grid-area: intro; }
+.hero--with-portrait .hero__actions { grid-area: actions; }
+
+@media (min-width: 768px) {
+	/* Desktop portrait layout: ~7/12 text + ~4/12 portrait with a comfortable
+	   gap; portrait aligned alongside the full text column. */
+	.hero--with-portrait .hero__content {
+		max-width: none;
+		grid-template-columns: 7fr 4fr;
+		grid-template-areas:
+			"identity portrait"
+			"intro    portrait"
+			"actions  portrait";
+		column-gap: 48px;
+		row-gap: 0;
+	}
+
+	.hero--with-portrait .hero__portrait {
+		width: 100%;
+		align-self: center;
+	}
+}
+
+/* ---------- Mobile density refinement (desktop typography unchanged) ------- */
+@media (max-width: 767px) {
+	.hero {
+		margin-top: 32px;
+	}
+
+	/* >=375px: scale the overline so all five stay on one line as the viewport
+	   narrows, floored at 10px so it never becomes too small. Below 375px the
+	   two-row rule further down takes over. */
+	.hero__eyebrow {
+		margin-bottom: 16px;
+		font-size: clamp(10px, calc((100vw - 56px) / 31.5), 12px);
+		letter-spacing: 0.03em;
+	}
+
+	.hero__eyebrow-group span:not(:last-child)::after,
+	.hero__eyebrow-group:not(:last-child)::after {
+		margin-inline: 0.45em;
+	}
+
+	.hero h1 {
+		font-size: 36px;
+		margin-bottom: 16px;
+	}
+
+	.hero h2 {
+		font-size: 26px;
+		margin-bottom: 24px;
+	}
+
+	.hero__intro {
+		margin-bottom: 32px;
+	}
+}
+
+/* <375px: instead of shrinking the overline further, stack the two groups
+   into two clean rows — "Finance · Governance · Operations" / "Data · Projects".
+   The joining separator is removed so no dot sits at a row start or end, and
+   the font stays >=10px. Row gap is kept tight so the hero height barely changes. */
+@media (max-width: 374.98px) {
+	.hero__eyebrow {
+		flex-direction: column;
+		align-items: flex-start;
+		row-gap: 4px;
+		font-size: clamp(10px, calc((100vw - 40px) / 22.5), 12px);
+	}
+
+	.hero__eyebrow-group:not(:last-child)::after {
+		content: none; /* drop the dot that would join the rows */
+	}
 }
 
 /* Buttons */
@@ -793,7 +942,9 @@ main {
 
 .site-footer__links {
 	display: flex;
-	gap: 32px;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 12px 24px;
 }
 
 .site-footer__links a {
@@ -804,6 +955,15 @@ main {
 	text-transform: uppercase;
 	color: var(--on-surface-variant);
 	transition: color 0.2s ease-in-out;
+}
+
+/* Contact detail (number / handle) shown in natural case so it stays legible
+   and restrained beside the uppercase label. */
+.site-footer__detail {
+	text-transform: none;
+	font-weight: 400;
+	letter-spacing: 0;
+	color: var(--outline);
 }
 
 .site-footer__links a:hover,
@@ -817,6 +977,10 @@ main {
 		justify-content: space-between;
 		padding-inline: var(--margin-desktop);
 		text-align: left;
+	}
+
+	.site-footer__links {
+		justify-content: flex-end;
 	}
 }
 

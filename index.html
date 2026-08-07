@@ -68,11 +68,45 @@
 
 	<main id="main">
 		<!-- Hero -->
+		<!--
+			Portrait-ready hero.
+			The layout is prepared for a future portrait photo but stays in its
+			natural, full-width no-photo state until one is supplied.
+
+			To activate the portrait once a real photo exists:
+			  1. Add the class "hero--with-portrait" to the <section> below.
+			  2. Place a single <img> inside .hero__portrait, e.g.
+			     <img src="images/portrait.jpg" alt="Portrait of Fariz Alfitra" width="800" height="1000" />
+			No other markup or CSS change is required.
+		-->
 		<section class="container hero">
 			<div class="hero__content">
-				<p class="eyebrow hero__eyebrow">Finance · Governance · Operations · Data · Projects</p>
-				<h1>Fariz Alfitra</h1>
-				<h2>Finance, Governance &amp; Business Systems</h2>
+				<div class="hero__identity">
+					<!--
+						Eyebrow focus areas as two structured groups. On one line
+						(>=375px) a CSS separator joins the groups so it reads as
+						"Finance · Governance · Operations · Data · Projects".
+						Below 375px the groups stack into two clean rows and the
+						joining separator is removed — no dot ever falls at a row edge.
+					-->
+					<ul class="eyebrow hero__eyebrow" aria-label="Focus areas">
+						<li class="hero__eyebrow-group">
+							<span>Finance</span>
+							<span>Governance</span>
+							<span>Operations</span>
+						</li>
+						<li class="hero__eyebrow-group">
+							<span>Data</span>
+							<span>Projects</span>
+						</li>
+					</ul>
+					<h1>Fariz Alfitra</h1>
+					<h2>Finance, Governance &amp; Business Systems</h2>
+				</div>
+
+				<!-- Portrait slot — intentionally empty and hidden until a real photo is added. -->
+				<div class="hero__portrait" aria-hidden="true"></div>
+
 				<p class="hero__intro">
 					Building practical systems for clearer financial visibility, stronger governance,
 					and better project and operational decisions.
@@ -94,13 +128,13 @@
 				<div class="profile__lead">
 					<h3 class="headline">Evolution &amp; Synthesis</h3>
 					<p class="muted">
-						My background spans data analytics, financial analysis, and financial planning,
-						shaping how I approach organizational problems through reliable information,
-						structured processes, and practical decision support.
+						Professional experience spans data analytics, financial analysis, and financial
+						planning, shaping an approach centered on reliable information, structured
+						processes, and practical decision support.
 					</p>
 					<p class="muted">
-						Today, I apply that foundation in leadership roles across two education foundations,
-						focusing on finance, governance, project oversight, and more structured
+						Current leadership roles across two education foundations apply that analytical
+						and financial foundation to governance, project oversight, and more structured
 						management practices.
 					</p>
 				</div>
@@ -317,12 +351,17 @@
 				<div class="exp-row">
 					<div class="exp-row__when">Current</div>
 					<div>
-						<h4 class="exp-row__title">Foundation Leadership</h4>
-						<p class="exp-row__org">
-							<span>Board Member, Yayasan Ibnu Arsyad</span>
-							<span>Treasurer, Yayasan Daarul Mukmin</span>
-						</p>
-						<p class="exp-row__desc">Supporting governance, financial oversight, development projects, and the design of practical management systems across education operations.</p>
+						<h4 class="exp-row__title">Board Member</h4>
+						<p class="exp-row__org">Yayasan Ibnu Arsyad</p>
+						<p class="exp-row__desc">Provides strategic oversight on governance, financial sustainability, institutional development, and major construction projects.</p>
+					</div>
+				</div>
+				<div class="exp-row">
+					<div class="exp-row__when">Current</div>
+					<div>
+						<h4 class="exp-row__title">Treasurer</h4>
+						<p class="exp-row__org">Yayasan Daarul Mukmin</p>
+						<p class="exp-row__desc">Oversees financial reporting, reconciliation, and financial control while supporting governance and development decisions.</p>
 					</div>
 				</div>
 				<div class="exp-row">
@@ -361,6 +400,8 @@
 				<a href="https://www.linkedin.com/in/farizalfitra/" target="_blank" rel="noopener">LinkedIn</a>
 				<a href="https://github.com/alfitraaa" target="_blank" rel="noopener">GitHub</a>
 				<a href="mailto:farizalfitraaa@gmail.com">Email</a>
+				<a href="https://wa.me/621170067171" target="_blank" rel="noopener">WhatsApp <span class="site-footer__detail">· +621170067171</span></a>
+				<a href="https://www.instagram.com/documenteddd/" target="_blank" rel="noopener">Instagram <span class="site-footer__detail">· @documenteddd</span></a>
 			</div>
 		</div>
 	</footer>

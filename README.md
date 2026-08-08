@@ -31,4 +31,4 @@ No build framework or runtime dependency is required.
 
 ## Live Site
 
-https://alfitraaa.github.io/FarizAlfitra.github.io/
+https://alfitraaa.github.io/

@@ -69,43 +69,44 @@
 	<main id="main">
 		<!-- Hero -->
 		<!--
-			Portrait-ready hero.
-			The layout is prepared for a future portrait photo but stays in its
-			natural, full-width no-photo state until one is supplied.
-
-			To activate the portrait once a real photo exists:
-			  1. Add the class "hero--with-portrait" to the <section> below.
-			  2. Place a single <img> inside .hero__portrait, e.g.
-			     <img src="images/portrait.jpg" alt="Portrait of Fariz Alfitra" width="800" height="1000" />
-			No other markup or CSS change is required.
+			Portrait-ready hero (portrait active).
+			Layout hooks: .hero__eyebrow (focus areas, full width), .hero__identity
+			(name + positioning), .hero__portrait (image), toggled by
+			.hero--with-portrait on the section. The eyebrow keeps full width on
+			every viewport so its single-line (>=375px) / two-row (<375px) behavior
+			is unaffected by the portrait column.
 		-->
-		<section class="container hero">
+		<section class="container hero hero--with-portrait">
 			<div class="hero__content">
+				<!--
+					Eyebrow focus areas as two structured groups. On one line
+					(>=375px) a CSS separator joins the groups so it reads as
+					"Finance · Governance · Operations · Data · Projects".
+					Below 375px the groups stack into two clean rows and the
+					joining separator is removed — no dot ever falls at a row edge.
+				-->
+				<ul class="eyebrow hero__eyebrow" aria-label="Focus areas">
+					<li class="hero__eyebrow-group">
+						<span>Finance</span>
+						<span>Governance</span>
+						<span>Operations</span>
+					</li>
+					<li class="hero__eyebrow-group">
+						<span>Data</span>
+						<span>Projects</span>
+					</li>
+				</ul>
+
 				<div class="hero__identity">
-					<!--
-						Eyebrow focus areas as two structured groups. On one line
-						(>=375px) a CSS separator joins the groups so it reads as
-						"Finance · Governance · Operations · Data · Projects".
-						Below 375px the groups stack into two clean rows and the
-						joining separator is removed — no dot ever falls at a row edge.
-					-->
-					<ul class="eyebrow hero__eyebrow" aria-label="Focus areas">
-						<li class="hero__eyebrow-group">
-							<span>Finance</span>
-							<span>Governance</span>
-							<span>Operations</span>
-						</li>
-						<li class="hero__eyebrow-group">
-							<span>Data</span>
-							<span>Projects</span>
-						</li>
-					</ul>
 					<h1>Fariz Alfitra</h1>
 					<h2>Finance, Governance &amp; Business Systems</h2>
 				</div>
 
-				<!-- Portrait slot — intentionally empty and hidden until a real photo is added. -->
-				<div class="hero__portrait" aria-hidden="true"></div>
+				<!-- Portrait slot (activated). Optimized production image. -->
+				<div class="hero__portrait">
+					<img src="images/portrait-fariz-web.jpg" alt="Fariz Alfitra"
+						width="800" height="800" loading="eager" decoding="async" />
+				</div>
 
 				<p class="hero__intro">
 					Building practical systems for clearer financial visibility, stronger governance,
@@ -400,8 +401,8 @@
 				<a href="https://www.linkedin.com/in/farizalfitra/" target="_blank" rel="noopener">LinkedIn</a>
 				<a href="https://github.com/alfitraaa" target="_blank" rel="noopener">GitHub</a>
 				<a href="mailto:farizalfitraaa@gmail.com">Email</a>
-				<a href="https://wa.me/621170067171" target="_blank" rel="noopener">WhatsApp <span class="site-footer__detail">· +621170067171</span></a>
-				<a href="https://www.instagram.com/documenteddd/" target="_blank" rel="noopener">Instagram <span class="site-footer__detail">· @documenteddd</span></a>
+				<a href="https://wa.me/621170067171" target="_blank" rel="noopener">WhatsApp</a>
+				<a href="https://www.instagram.com/documenteddd/" target="_blank" rel="noopener">Instagram</a>
 			</div>
 		</div>
 	</footer>

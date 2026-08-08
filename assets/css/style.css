@@ -420,34 +420,48 @@ main {
 }
 
 .hero--with-portrait .hero__portrait img {
+	display: block;
 	width: 100%;
+	height: auto; /* let aspect-ratio govern; the width/height attrs must not pin height */
 	aspect-ratio: 4 / 5; /* editorial portrait */
 	object-fit: cover;
-	border: 0.5px solid var(--outline-variant);
-	border-radius: var(--radius);
+	/* Head-and-shoulders framing: the square source keeps its full height (all
+	   hair + natural headroom + shoulders); cover trims only the sides. The
+	   subject sits right-of-centre with empty background on the left, so the
+	   crop is biased right to trim that dead space and centre the face.
+	   No filters/adjustments to the image. */
+	object-position: 60% 40%;
+	/* Dark portrait on a light page separates on its own — no frame, card,
+	   border, or drop shadow, to keep the editorial, understated aesthetic. */
 }
 
-/* Mobile portrait layout: compact portrait sits to the RIGHT of the identity
-   block; intro and actions run full width beneath — keeps the hero from
-   becoming excessively tall. */
+/* Mobile portrait layout: the eyebrow keeps its own full-width row (so its
+   single-line / two-row behavior is unaffected), the compact portrait sits to
+   the RIGHT of the name + positioning, and intro + actions run full width
+   beneath — keeping the hero from becoming excessively tall. */
 .hero--with-portrait .hero__content {
 	display: grid;
 	grid-template-columns: 1fr auto;
 	grid-template-areas:
+		"eyebrow  eyebrow"
 		"identity portrait"
 		"intro    intro"
 		"actions  actions";
 	column-gap: 20px;
-	row-gap: 24px;
+	row-gap: 0;
 	align-items: start;
 }
 
+.hero--with-portrait .hero__eyebrow { grid-area: eyebrow; }
 .hero--with-portrait .hero__identity { grid-area: identity; }
 
 .hero--with-portrait .hero__portrait {
 	grid-area: portrait;
 	display: block;
-	width: 96px;
+	/* Compact, secondary accent on mobile: ~76–92px with the viewport so the
+	   name and positioning stay dominant and the hero stays compact, without
+	   ever forcing horizontal overflow. */
+	width: clamp(76px, 22.5vw, 92px);
 	align-self: start;
 }
 
@@ -456,20 +470,28 @@ main {
 
 @media (min-width: 768px) {
 	/* Desktop portrait layout: ~7/12 text + ~4/12 portrait with a comfortable
-	   gap; portrait aligned alongside the full text column. */
+	   gap; portrait centered alongside the text column and capped so it supports
+	   the hero rather than dominating it, preserving editorial whitespace. */
 	.hero--with-portrait .hero__content {
 		max-width: none;
 		grid-template-columns: 7fr 4fr;
 		grid-template-areas:
+			"eyebrow  portrait"
 			"identity portrait"
 			"intro    portrait"
 			"actions  portrait";
-		column-gap: 48px;
+		column-gap: 56px;
 		row-gap: 0;
+		align-items: center;
 	}
 
 	.hero--with-portrait .hero__portrait {
 		width: 100%;
+		/* Restrained editorial accent (~270×338 at 4:5), not a dominant element.
+		   Capped well below the 4/12 column so the extra space reads as whitespace
+		   rather than enlarging the portrait; text stays visually dominant. */
+		max-width: 270px;
+		justify-self: end;
 		align-self: center;
 	}
 }
@@ -955,15 +977,6 @@ main {
 	text-transform: uppercase;
 	color: var(--on-surface-variant);
 	transition: color 0.2s ease-in-out;
-}
-
-/* Contact detail (number / handle) shown in natural case so it stays legible
-   and restrained beside the uppercase label. */
-.site-footer__detail {
-	text-transform: none;
-	font-weight: 400;
-	letter-spacing: 0;
-	color: var(--outline);
 }
 
 .site-footer__links a:hover,
